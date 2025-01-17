@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+   <meta name="description" content="Scale Up - Advertise your products and grow your business effortlessly. Enjoy cost-effective advertising and reach a vast audience with ease.">
+  <meta name="keywords" content="advertising, business growth, product promotion, scale up, cost-effective marketing">
+  <meta name="author" content="Ahuekwe Precious Maduabuchi">
+  <link rel="icon" href="https://scalelup.com/static/media/scalelup.6291f43cadc59681754999b51bd91c62.svg" type="image/svg+xml">
+  
+  
+      <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-database-compat.js"></script>
+  
+  <style>
+    /* General Reset */
+
+/* Reset Styles */
+body, a {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box; /* Add universal box-sizing for better layout control */
+}
+
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #581845;
+  color: #fff;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo img {
+  height: 40px;
+}
+
+/* Hero Section */
+.hero {
+  height: 70vh;
+  background-image: url('https://img.freepik.com/free-photo/african-descent-woman-holding-rocketship-icon_53876-24886.jpg?ga=GA1.1.83073729.1722412951&semt=ais_hybrid'); /* Replace this URL with your hero background image */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  margin-left: 0px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adds a dark overlay for better text visibility */
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin: 0 0 1rem;
+}
+
+.hero p {
+  font-size: 1.5rem;
+  margin: 0 0 2rem;
+}
+
+.hero-btn {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background-color: #ff5722;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  display: inline-block; /* Ensure the button appears correctly if used within inline elements */
+}
+
+.hero-btn:hover {
+  background-color: #e64a19;
+}
+
+
+.promotion-container {
+    max-width: 800px;
+    margin: 0px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.highlight {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+
+
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: white;
+}
+
+.card {
+  width: 300px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  color: #fff;
+  position: relative;
+  margin-left: 10px;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.card-header {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+.card-content {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.card:nth-child(1) { background-color: rgba(0, 0, 0, 0.5); }
+.card:nth-child(2) { background-color: rgba(255, 0, 0, 0.5); }
+.card:nth-child(3) { background-color: rgba(0, 255, 0, 0.5); }
+
+
+
+
+.container {
+    width: 95%;  /* Wider container for better spacing */
+    max-width: 100%;  /* Maximum width for better responsiveness */
+    margin: 0px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.container:hover {
+    transform: scale(1.02);  /* Subtle scale effect on hover */
+}
+
+h1 {
+    text-align: center;
+    color: #581845;  /* Fresh, modern green */
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 90%;
+    padding: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #4CAF50;  /* Green focus border */
+    outline: none;
+}
+
+.form-group button {
+    padding: 16px 24px;
+    background-color: #581845;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.form-group button:hover {
+    background-color: #581845;  /* Darker green on hover */
+   
+}
+
+.file-upload input[type="file"] {
+    padding: 14px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.company-details {
+            background: linear-gradient(135deg, #4CAF50, #581845);
+            color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            width: 90%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .company-details h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            border-bottom: 2px solid #ffffff;
+            padding-bottom: 10px;
+            letter-spacing: 1.5px;
+        }
+
+        .company-details p {
+            font-size: 16px;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .company-details strong {
+            color: #ffe082;
+        }
+
+        #amountDisplay {
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+
+.info-dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #581845;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+
+.footer {
+    background-color: #222;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-logo {
+    text-align: center;
+}
+
+.footer-logo img {
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.footer-logo h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.footer-sponsors {
+    text-align: center;
+}
+
+.footer-sponsors h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.footer-sponsors ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-sponsors li {
+    margin: 0;
+}
+
+.footer-sponsors a {
+    text-decoration: none;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.footer-sponsors a:hover {
+    text-decoration: underline;
+}
+
+.footer-sponsors img {
+    height: 30px;
+}
+
+@media (min-width: 768px) {
+    .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .footer-logo, .footer-sponsors {
+        text-align: left;
+    }
+
+    .footer-sponsors ul {
+        flex-direction: row;
+        gap: 20px;
+    }
+}
+
+
+
+
+#adPreviewContainer {
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+#adPreview img {
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+}
+
+#adPreview p {
+    margin-top: 10px;
+}
+
+#adPreview button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#adPreview button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+
+
+
+
+
+  </style>
+  <title> Scale up >> Grow your Business</title>
+</head>
+<body>
+      
+<nav class="navbar">
+  <div class="logo">
+    <a href="https://tinyurl.com/Free30kbyMelvica">
+      <img src="https://scalelup.com/static/media/scalelup.6291f43cadc59681754999b51bd91c62.svg" alt="Scalelup Logo">
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Welcome to Scale Up</h1>
+    <p>Advertise your products and grow your business with ease!</p>
+    
+    <a href="https://wa.me/2348128885606?text=Hello%20Scale%20up%20I%20need%20assistance%20and%20guidance" class="hero-btn" target="_blank" style="text-decoration: none;">Contact Us</a>
+    
+  </div>
+</section>
+
+ <div class="promotion-container">
+
+        <p>
+            With our powerful promotion platform, <strong>Scalelup</strong> offers business owners an effortless 
+            and effective way to showcase their products and services to a vast audience 
+            <span class="highlight">with low cost</span>.
+        </p>
+    </div>
+    
+    <div class="card-container">
+    <!-- Card 1 -->
+    <div class="card" style="background-image: url('https://media.istockphoto.com/id/1313859186/nl/foto/jong-afro-amerikaans-paar-dat-van-zonnige-dag-geniet-en-selfies-neemt.jpg?s=612x612&w=0&k=20&c=YdYMoRh4BK0ZoX4SyDqlWNPLbAfwaMa1c_Lh69qEwgA=');">
+      <img src="https://cdn-icons-png.flaticon.com/128/7051/7051355.png" alt="Icon" class="icon">
+      <h2 class="card-header">Save Costs</h2>
+      <p class="card-content">Market smarter, not harder. Enjoy cost-effective advertising that delivers results without exceeding your budget.</p>
+    </div>
+    <!-- Card 2 -->
+    <div class="card" style="background-image: url('https://img.freepik.com/premium-photo/happy-smiling-interracial-couple-holding-growth-arrow_53876-29112.jpg?ga=GA1.1.139198705.1725613241&semt=ais_hybrid');">
+      <img src="https://cdn-icons-png.flaticon.com/128/9733/9733064.png" alt="Icon" class="icon">
+      <h2 class="card-header">Boost Your Sales</h2>
+      <p class="card-content">Watch your business thrive. Our platform ensures your products and services stand out to attract more customers and increase sales</p>
+    </div>
+    <!-- Card 3 -->
+    <div class="card" style="background-image: url('https://media.istockphoto.com/id/1785808259/nl/foto/networking-opportunities.jpg?s=612x612&w=0&k=20&c=6OQ5w-M1K8jwmqpxgwMd4XL_mG1ykxcsv0x9Me_U7-c=');">
+      <img src="https://cdn-icons-png.flaticon.com/128/18296/18296927.png" alt="Icon" class="icon">
+      <h2 class="card-header">Promote Your Brand</h2>
+      <p class="card-content">Expand your reach effortlessly. Scale Up provides tools to showcase your business to a vast audience with minimal effort.</p>
+    </div>
+  </div>
+    <br>
+    <br>
+    <br>
+    
+    
+    
+    
+    
+    <div class="container">
+    <h1>Advertise Your Product</h1>
+
+    <form id="advertForm">
+        <!-- Media Upload -->
+        <div class="form-group file-upload">
+            <label for="media">Upload Media (Image or Video)</label>
+            <input type="file" id="media" name="media" accept="image/*,video/*" required>
+        </div>
+
+        <!-- WhatsApp or Facebook Link -->
+        <div class="form-group">
+            <label for="contactLink">WhatsApp Contact or Group Link / Facebook Group Link</label>
+            <input type="text" id="contactLink" name="contactLink" placeholder="Enter WhatsApp or Facebook group link" required>
+            <br>
+            <br>
+            <input type="text" id="contactLinke" name="contactLinke" placeholder="Enter your WhatsApp Number" required>
+        </div>
+
+        <!-- Content for Advertisement -->
+        <div class="form-group">
+            <label for="content">Advertisement Content</label>
+            <textarea id="content" name="content" rows="4" placeholder="Write your advertisement details here..." required></textarea>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      <div id="adPreviewContainer" style="margin: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 10px; display: none;">
+    <h2>Advertisement Preview</h2>
+    <div id="adPreview" style="display: flex; flex-direction: column; align-items: center;">
+        <img id="previewImage" src="" alt="Uploaded Media" style="max-width: 100%; max-height: 300px; margin-bottom: 20px; display: none;">
+        <p id="previewContent" style="font-size: 1.2em; color: #333;"></p>
+        <a id="previewContactLink" href="#" target="_blank" style="display: none;">
+            <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Click Here
+            </button>
+        </a>
+    </div>
+</div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        <!-- Number of Customers and Payment -->
+        <div class="form-group">
+            <label for="numCustomers">Select Number of Reach</label>
+            <p> This is the estimate of how many people will see your products/business every day</p>
+            <select id="numCustomers" name="numCustomers" required>
+        
+                <option value="500">500 Reach- ₦2,500</option>
+                <option value="1000">1,000 Reach - ₦5,000</option>
+                <option value="5000">5,000 Reach - ₦25,000</option>
+                <option value="10000">10,000 Reach - ₦50,000</option>
+                                <option value="20000">20,000 Reach - ₦100,000</option>
+                <option value="40000">40,000 Reach - ₦200,000</option>
+                <option value="60000">60,000 Reach - ₦4000</option>
+                <option value="10000000">10,000,000 Reach - ₦50,000,000</option>
+                               
+            </select>
+        </div>
+        
+        
+         <div class="company-details">
+            <h3>Company Account Details</h3>
+            <p><strong>Account Name:</strong> MADUABUCHI AHUEKWE</p>
+            <p><strong>Bank Name:</strong> Palmpay</p>
+            <p><strong>Account Number:</strong> 8128885606</p>
+           
+            <p><strong>Amount to Transfer:</strong> ₦<span id="amountDisplay">2,500</span></p>
+        </div>
+        
+        
+        
+
+        <div class="form-group">
+            <label for="transactionReceipt">Upload Transaction Receipt</label>
+            <input type="file" id="transactionReceipt" name="transactionReceipt" accept="image/*,application/pdf" required>
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Submit </button>
+            <br>
+            <br>
+            
+            <a href="Scale up(stats).html">
+    <div class="form-group">
+        <button type="button">Check Ads Statistics</button>
+    </div>
+</a>
+          
+            
+        </div>
+            
+    </form>
+</div>
+
+<!-- Info Dialog -->
+<div class="info-dialog" id="infoDialog">
+    <p>Your information is being reviewed by the administrators...</p>
+    <p> You will be contacted via your Whatsapp once review is completed</p>
+</div>
+
+<footer class="footer">
+        <div class="footer-container">
+            <!-- Website Info -->
+            <div class="footer-logo">
+                <img src="https://scalelup.com/static/media/scalelup.6291f43cadc59681754999b51bd91c62.svg" alt="Scale Up Logo">
+               
+            </div>
+
+            <!-- Sponsors -->
+            <div class="footer-sponsors">
+                <h3>Our Sponsors</h3>
+                <ul>
+                    <li>
+                        <a href="https://tinyurl.com/Free30kbyMelvica" target="_blank">
+                            <img src="https://cdn-icons-png.flaticon.com/128/11168/11168169.png" alt="Melvica Logo">
+                            <span>Melvica</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://edumagicia.onrender.com" target="_blank">
+                            <span>EDUMAGICIA</span>
+                        </a>
+                    </li>
+                    <p> AHUEKWE PRECIOUS MADUABUCHI </p>
+                    <p> ☎️ 08128885606 </p>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    
+    <script type='text/javascript' src='//slushhelmetmirth.com/5f/8a/71/5f8a710eaae708ddedca22a14f227181.js'></script>
+    
+   <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDJP2XIR51qGTLINiKvEoscYTMt11CaZ5s",
+        authDomain: "paytrust-71e30.firebaseapp.com",
+        databaseURL: "https://paytrust-71e30-default-rtdb.firebaseio.com/",
+        projectId: "paytrust-71e30",
+        storageBucket: "gs://paytrust-71e30.appspot.com",
+        messagingSenderId: "492609516838",
+        appId: "1:492609516838:android:5a924ad3b7e8e508fa3de7"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Amount calculation based on number of customers
+    document.getElementById('numCustomers').addEventListener('change', function() {
+        const numCustomers = this.value;
+        const amount = numCustomers * 5;
+        document.getElementById('amountDisplay').textContent = amount;
+    });
+
+    // Handle form submission
+    document.getElementById("advertForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const media = document.getElementById("media").files[0];
+        const contactLink = document.getElementById("contactLink").value;
+        const content = document.getElementById("content").value;
+        const numCustomers = document.getElementById("numCustomers").value;
+        const transactionReceipt = document.getElementById("transactionReceipt").files[0];
+        const contactLinke = document.getElementById("contactLinke").value;
+
+        // Show the info dialog
+        document.getElementById("infoDialog").style.display = "flex";
+
+        // Push data to Firebase Realtime Database
+        const newAdvertRef = database.ref("advertisements").push();
+        newAdvertRef.set({
+            contactLink: contactLink,
+            contactLinke: contactLinke,
+            content: content,
+            numCustomers: numCustomers,
+            status: "Pending"
+        }).then(() => {
+            // Hide info dialog and show success message
+            document.getElementById("infoDialog").style.display = "none";
+            alert("Your advertisement has been submitted! It will be reviewed by the administrators, we will contact you once review is completed.");
+        }).catch((error) => {
+            alert("Error submitting your advertisement: " + error.message);
+        });
+    });
+</script>
+
+    
+    
+    <script>
+// Preview Container
+const adPreviewContainer = document.getElementById('adPreviewContainer');
+const previewImage = document.getElementById('previewImage');
+const previewContent = document.getElementById('previewContent');
+const previewContactLink = document.getElementById('previewContactLink');
+
+// Update preview on file input change
+document.getElementById('media').addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            previewImage.src = e.target.result;
+            previewImage.style.display = 'block';
+            adPreviewContainer.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Update preview on content input
+document.getElementById('content').addEventListener('input', function () {
+    const content = this.value.trim();
+    previewContent.textContent = content || "Your ad content will appear here.";
+    adPreviewContainer.style.display = 'block';
+});
+
+// Update preview on contact link input
+document.getElementById('contactLink').addEventListener('input', function () {
+    const link = this.value.trim();
+    if (link) {
+        previewContactLink.href = link;
+        previewContactLink.style.display = 'inline-block';
+    } else {
+        previewContactLink.style.display = 'none';
+    }
+    adPreviewContainer.style.display = 'block';
+});
+    </script>
+  
+</body>
+</html>

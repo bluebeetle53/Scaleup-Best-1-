@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Check your ad performance statistics including reach and impressions.">
+  <meta name="keywords" content="ad stats, ad performance, reach, impressions, business growth">
+  <meta name="author" content="Scale Up">
+  <link rel="icon" href="https://scalelup.com/static/media/scalelup.6291f43cadc59681754999b51bd91c62.svg" type="image/svg+xml">
+  <title>Ad Performance Stats</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #581845;
+  color: #fff;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo img {
+  height: 40px;
+}
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #581845;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #581845;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #4a1333;
+    }
+
+    .stats {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f1f1f1;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .stats h2 {
+      margin-bottom: 10px;
+    }
+
+    .stats p {
+      margin: 5px 0;
+    }
+
+    canvas {
+      margin-top: 20px;
+    }
+    
+    
+    .footer {
+    background-color: #222;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-logo {
+    text-align: center;
+}
+
+.footer-logo img {
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.footer-logo h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.footer-sponsors {
+    text-align: center;
+}
+
+.footer-sponsors h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.footer-sponsors ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-sponsors li {
+    margin: 0;
+}
+
+.footer-sponsors a {
+    text-decoration: none;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.footer-sponsors a:hover {
+    text-decoration: underline;
+}
+
+.footer-sponsors img {
+    height: 30px;
+}
+
+@media (min-width: 768px) {
+    .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .footer-logo, .footer-sponsors {
+        text-align: left;
+    }
+
+    .footer-sponsors ul {
+        flex-direction: row;
+        gap: 20px;
+    }
+}
+
+  </style>
+</head>
+<body>
+  
+  <nav class="navbar">
+  <div class="logo">
+    <a href="https://tinyurl.com/Free30kbyMelvica">
+      <img src="https://scalelup.com/static/media/scalelup.6291f43cadc59681754999b51bd91c62.svg" alt="Scalelup Logo">
+    </a>
+  </div>
+</nav>
+
+  <div class="container">
+    <h1>Check Your Ad Stats</h1>
+    <form id="statsForm">
+      <label for="adId">Enter Ad ID:</label>
+      <input type="text" id="adId" name="adId" placeholder="Enter your Ad ID" required>
+      <button type="submit">Check Stats</button>
+    </form>
+    <div class="stats" id="statsContainer" style="display: none;">
+      <h2>Ad Statistics</h2>
+      <p><strong>Reach:</strong> <span id="reach">0</span></p>
+      <p><strong>Impressions:</strong> <span id="impressions">0</span></p>
+      <p><strong>Status:</strong> <span id="status">Pending</span></p>
+      <canvas id="statsChart" width="400" height="400"></canvas>
+    </div>
+  </div>
+  
+  
+  
+  
+  <footer class="footer">
+        <div class="footer-container">
+            <!-- Website Info -->
+            <div class="footer-logo">
+                <img src="https://scalelup.com/static/media/scalelup.6291f43cadc59681754999b51bd91c62.svg" alt="Scale Up Logo">
+               
+            </div>
+
+            <!-- Sponsors -->
+            <div class="footer-sponsors">
+                <h3>Our Sponsors</h3>
+                <ul>
+                    <li>
+                        <a href="https://tinyurl.com/Free30kbyMelvica" target="_blank">
+                            <img src="https://cdn-icons-png.flaticon.com/128/11168/11168169.png" alt="Melvica Logo">
+                            <span>Melvica</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://edumagicia.onrender.com" target="_blank">
+                            <span>EDUMAGICIA</span>
+                        </a>
+                    </li>
+                    <p> AHUEKWE PRECIOUS MADUABUCHI </p>
+                    <p> ☎️ 08128885606 </p>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    
+    <script type='text/javascript' src='//slushhelmetmirth.com/5f/8a/71/5f8a710eaae708ddedca22a14f227181.js'></script>
+
+  <!-- Firebase Libraries -->
+  <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-database-compat.js"></script>
+
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDJP2XIR51qGTLINiKvEoscYTMt11CaZ5s",
+      authDomain: "paytrust-71e30.firebaseapp.com",
+      databaseURL: "https://paytrust-71e30-default-rtdb.firebaseio.com/",
+      projectId: "paytrust-71e30",
+      storageBucket: "gs://paytrust-71e30.appspot.com",
+      messagingSenderId: "492609516838",
+      appId: "1:492609516838:android:5a924ad3b7e8e508fa3de7"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    let statsChart;
+
+    // Handle form submission
+    document.getElementById("statsForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const adId = document.getElementById("adId").value;
+
+      // Retrieve ad stats from Firebase
+      database.ref("advertisements/" + adId).once("value")
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            const reach = data.reach || 0;
+            const impressions = data.impressions || 0;
+            const status = data.status || "Pending";
+
+            // Update UI
+            document.getElementById("reach").textContent = reach;
+            document.getElementById("impressions").textContent = impressions;
+            document.getElementById("status").textContent = status;
+            document.getElementById("statsContainer").style.display = "block";
+
+            // Update Chart
+            if (statsChart) {
+              statsChart.destroy();
+            }
+
+            const ctx = document.getElementById("statsChart").getContext("2d");
+            statsChart = new Chart(ctx, {
+              type: "pie",
+              data: {
+                labels: ["Reach", "Impressions"],
+                datasets: [{
+                  label: "Ad Stats",
+                  data: [reach, impressions],
+                  backgroundColor: ["#581845", "#FF5733"],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: "bottom"
+                  }
+                }
+              }
+            });
+          } else {
+            alert("Ad ID not found. Please check and try again.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error retrieving ad stats:", error);
+          alert("An error occurred. Please try again later.");
+        });
+    });
+  </script>
+</body>
+</html>
